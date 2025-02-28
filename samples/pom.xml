@@ -18,6 +18,7 @@
         <module>pub_sub_channel</module>
         <module>queue_channel</module>
         <module>executor_channel</module>
+        <module>priority_channel</module>
     </modules>
 
     <properties>

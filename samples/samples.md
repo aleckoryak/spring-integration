@@ -14,8 +14,20 @@ Spring Integration provides support for both synchronous and asynchronous messag
 + RendezvousChannel: synchronous QueueChannel makes the sender block until the receiver accepts the message. It’s useful for synchronization purposes.
 + FluxMessageChannel: from the reactive stack supports reactive programming patterns by using Project Reactor's Flux. It’s effectively a bridge to the reactive world, designed to work with streams of messages.
 ### Endpoint: The components that interact with the channels like adapters, gateways, and service activators. They help in sending or receiving messages.
-Transformer: Used to transform the message from one format to another.
-Filter: Used to evaluate whether a message should be passed along or discarded.
+### Transformer: Used to transform the message from one format to another.
++ Payload Transforming : Object-to-String, Byte Array to String, JsonToObjectTransformer, ObjectToJsonTransformer, MapToObjectTransformer
++ Header Enricher
++ File Transforming: File to String, File To ByteArray
++ Message
++ ...
+### Filter: Used to evaluate whether a message should be passed along or discarded.
++ Expression-Based Filter
++ Payload Type Filter
++ Method Invoking Filter
++ Regex Pattern Matching Filter
++ Message Header Filter
++ Composite Filter
++ Custom Filters
 Router: Routes message to different channels based on a condition.
 Splitter: Splits a message into multiple messages.
 Aggregator: Aggregates multiple messages into a single message.

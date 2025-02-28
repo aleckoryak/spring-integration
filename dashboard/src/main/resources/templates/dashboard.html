@@ -25,6 +25,8 @@
                 <p class="grid_body" th:text="'Software Build: ' + (${status['softwareBuild']} != null ? ${status['softwareBuild']} : 'Not Available')"></p>
                 <p class="grid_body" th:text="'DirectChannel: ' + (${status['techSupportDirectChannel']} != null ? ${status['techSupportDirectChannel']} : 'Not Available')"></p>
                 <p class="grid_body" th:text="'PublishSubscribeChannel: ' + (${status['techSupportPublishSubscribeChannel']} != null ? ${status['techSupportPublishSubscribeChannel']} : 'Not Available')"></p>
+                <p class="grid_body" th:text="'QueueChannel: ' + (${status['updateNotificationQueueChannel']} != null ? ${status['updateNotificationQueueChannel']} : 'Not Available')"></p>
+
             </div>
         </div>
 <!--        <div class="grid_row">-->

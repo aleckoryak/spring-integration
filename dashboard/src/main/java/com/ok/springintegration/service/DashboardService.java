@@ -2,6 +2,7 @@ package com.ok.springintegration.service;
 
 import com.ok.springintegration.endpoint.TechSupportDirectChannelHandler;
 import com.ok.springintegration.endpoint.TechSupportPublishSubscribeChannelHandler;
+import com.ok.springintegration.endpoint.TechSupportPublishSubscribeChannelHandler2;
 import com.ok.springintegration.util.AppSupportStatus;
 import org.aspectj.lang.annotation.RequiredTypes;
 import org.slf4j.Logger;
@@ -21,7 +22,7 @@ import java.util.Date;
 import java.util.Properties;
 
 @Service
-@DependsOn({"techSupportDirectChannelHandler", "techSupportPublishSubscribeChannelHandler"})
+@DependsOn({"techSupportDirectChannelHandler", "techSupportPublishSubscribeChannelHandler", "techSupportPublishSubscribeChannelHandler2"})
 public class DashboardService {
     private static final Properties dashboardStatusDao = new Properties();
     static Logger logger = LoggerFactory.getLogger(DashboardService.class);
@@ -34,6 +35,8 @@ public class DashboardService {
     private TechSupportDirectChannelHandler techSupportDirectChannelHandler;
     @Autowired
     TechSupportPublishSubscribeChannelHandler techSupportPublishSubscribeChannelHandler;
+    @Autowired
+    TechSupportPublishSubscribeChannelHandler2 techSupportPublishSubscribeChannelHandler2;
     private TechSupportService techSupportService;
 
     public DashboardService(DirectChannel techSupportDirectChannel, PublishSubscribeChannel techSupportPublishSubscribeChannel) {
@@ -62,8 +65,9 @@ public class DashboardService {
                 .build();
 
         techSupportDirectChannel.send(message);
+        logger.info("initializeTechSupport: message sent to techSupportDirectChannel");
         techSupportPublishSubscribeChannel.send(message);
-        logger.info("initializeTechSupport: message sent");
+        logger.info("initializeTechSupport: message sent to techSupportPublishSubscribeChannel");
     }
 
 }

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Timer;
 import java.util.TimerTask;
-
+@Deprecated
 @Service
 public class TechSupportService extends TechSupportMessageHandler{
     private Logger logger = LoggerFactory.getLogger(TechSupportService.class);
@@ -42,7 +42,9 @@ public class TechSupportService extends TechSupportMessageHandler{
         // Check REST api for more current software version
 
         // For now, following results in a fake notice to the queue every 10 seconds
-        updateNotificationQueueChannel.send(MessageBuilder.withPayload("New software version available.").build(), 1000);
+        if (false) {
+            updateNotificationQueueChannel.send(MessageBuilder.withPayload("New software version available33.").build(), 1000);
+        }
     }
 
 }

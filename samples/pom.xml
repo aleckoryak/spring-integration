@@ -17,6 +17,7 @@
         <module>direct_channel</module>
         <module>pub_sub_channel</module>
         <module>queue_channel</module>
+        <module>executor_channel</module>
     </modules>
 
     <properties>

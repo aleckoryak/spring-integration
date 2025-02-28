@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans:beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:beans="http://www.springframework.org/schema/beans"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:context="http://www.springframework.org/schema/context"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
            http://www.springframework.org/schema/context
            http://www.springframework.org/schema/context/spring-context.xsd">
 
     <!-- Spring Application "Parent" Context -->
 
-    <context:property-placeholder location="classpath:application.properties" />
+<!--    <context:property-placeholder location="classpath:application.properties"/>
 
     <beans:bean id="appProperties" class="com.ok.springintegration.util.AppProperties">
         <property name="runtimeProperties">
             <props>
-                <prop key = "software.build">${software.build}</prop>
-                <prop key = "server.port">${server.port}</prop>
+                <prop key="software.build">${software.build}</prop>
+                <prop key="server.port">${server.port}</prop>
             </props>
         </property>
-    </beans:bean>
+    </beans:bean>-->
 
     <!-- Import Spring Integration Message Flows Here -->
-
+    <import resource="integration/grid-status.xml"/>
+    <import resource="integration/kineteco-news.xml"/>
+    <import resource="integration/power-usage.xml"/>
+    <import resource="integration/tech-support.xml"/>
 </beans:beans>

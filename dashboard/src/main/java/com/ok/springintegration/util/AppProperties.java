@@ -2,6 +2,7 @@ package com.ok.springintegration.util;
 
 import java.util.Properties;
 
+@Deprecated
 public class AppProperties {
 
     private Properties runtimeProperties;

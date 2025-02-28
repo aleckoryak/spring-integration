@@ -9,6 +9,12 @@
 			   https://www.springframework.org/schema/integration/spring-integration.xsd" >
 
     <!-- Configure Spring Integration Tech Support message flow here -->
+    <int:channel id="techSupportChannel"/>
+
+    <!-- QueueChannel example (Pollable) -->
+    <int:channel id="updateNotificationQueueChannel">
+        <int:queue capacity="5" />
+    </int:channel>
 
 </beans:beans>
 

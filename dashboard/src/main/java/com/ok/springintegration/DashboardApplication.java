@@ -4,43 +4,36 @@ import com.ok.springintegration.manage.DashboardManager;
 import com.ok.springintegration.util.AppProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.integration.channel.DirectChannel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @SpringBootApplication
-@Controller
-public class DashboardApplication {
+@ImportResource("classpath:META-INF/spring/application.xml")
 
-	private static DashboardManager dashboardManager;
+public class DashboardApplication {
 
 	private static Logger logger = LoggerFactory.getLogger(DashboardApplication.class);
 
 	public static void main(String[] args) {
-		AbstractApplicationContext context = new ClassPathXmlApplicationContext("/META-INF/spring/application.xml", DashboardApplication.class);
-		AppProperties props = (AppProperties) context.getBean("appProperties");
-		dashboardManager = new DashboardManager();
-		SpringApplication.run(DashboardApplication.class, args);
-		logger.info("Open this application in your browser at http://localhost:" + props.getRuntimeProperties().getProperty("server.port", "") + ". (Modify port number in src/main/resources/application.properties)");
-		context.close();
-	}
+		logger.info("Starting Dashboard Application...");
+		ConfigurableApplicationContext context = SpringApplication.run(DashboardApplication.class, args);
+		Environment env = context.getBean(Environment.class);
+		logger.info("Open this application in your browser at http://localhost:" + env.getProperty("server.port", "") + ". (Modify port number in src/main/resources/application.properties)");
 
-	@GetMapping("/")
-	public String dashboard(Model model) {
-		model.addAttribute("status", dashboardManager.getDashboardStatus());
-		return "dashboard";
-	}
-
-	@RequestMapping(value = "/api")
-	public ResponseEntity<Object> getProducts() {
-		return new ResponseEntity<>("OK", HttpStatus.OK);
 	}
 
 }

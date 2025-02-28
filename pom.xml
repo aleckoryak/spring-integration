@@ -12,7 +12,6 @@
     <modules>
         <module>helloworld</module>
         <module>filetransfer</module>
-        <module>dashboard</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

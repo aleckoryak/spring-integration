@@ -8,8 +8,10 @@
 			   http://www.springframework.org/schema/integration
 			   https://www.springframework.org/schema/integration/spring-integration.xsd" >
 
-    <!-- Configure Spring Integration Tech Support message flow here -->
-    <int:channel id="techSupportChannel"/>
+    <!-- DirectChannel example (Subscribable) -->
+    <int:channel id="techSupportDirectChannel"/>
+    <!-- PublishSubscribeChannel -->
+    <int:publish-subscribe-channel id="techSupportPublishSubscribeChannel" />
 
     <!-- QueueChannel example (Pollable) -->
     <int:channel id="updateNotificationQueueChannel">

@@ -7,38 +7,42 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.channel.AbstractSubscribableChannel;
 import org.springframework.integration.channel.QueueChannel;
+import org.springframework.integration.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
-@Service
-public class TechSupportService {
-    static Logger logger = LoggerFactory.getLogger(TechSupportService.class);
+import java.util.Timer;
+import java.util.TimerTask;
 
-    private AbstractSubscribableChannel techSupportChannel;
+@Service
+public class TechSupportService extends TechSupportMessageHandler{
+    private Logger logger = LoggerFactory.getLogger(TechSupportService.class);
+    private Timer timer = new Timer();
+
+    private AbstractSubscribableChannel techSupportDirectChannel;
     private QueueChannel updateNotificationQueueChannel;
 
     @Autowired
-    public TechSupportService(AbstractSubscribableChannel techSupportChannel, QueueChannel updateNotificationQueueChannel) {
-        this.techSupportChannel = techSupportChannel;
+    public TechSupportService(AbstractSubscribableChannel techSupportDirectChannel, QueueChannel updateNotificationQueueChannel) {
+        this.techSupportDirectChannel = techSupportDirectChannel;
         this.updateNotificationQueueChannel = updateNotificationQueueChannel;
-        // Initialize our class property techSupportChannel using application context
-        // techSupportChannel = (cast here) DashboardManager.getDashboardContext().getBean("techSupportChannel");
-        this.start();
+        timer.schedule(new TimerTask() {
+            public void run() {
+                checkVersionCurrency();
+            }
+        }, 10000, 10000);;
     }
 
-    private void start() {
-        // Represents long-running process thread
-
-        // Subscribe to the tech support channel
+    @Override
+    protected void receiveAndAcknowledge(AppSupportStatus status) {
+        logger.info("Tech support service received new build notification: " + status.toString());
     }
 
-    private boolean isVersionCurrent() {
-        return true;
+    private void checkVersionCurrency() {
+
+        // Check REST api for more current software version
+
+        // For now, following results in a fake notice to the queue every 10 seconds
+        updateNotificationQueueChannel.send(MessageBuilder.withPayload("New software version available.").build(), 1000);
     }
 
-    private static class ServiceMessageHandler extends TechSupportMessageHandler {
-
-        protected void receiveAndAcknowledge(AppSupportStatus status) {
-            TechSupportService.logger.info("Tech support service received new build notification: " + status.toString());
-        }
-    }
 }

@@ -1,41 +1,31 @@
-package com.ok.springintegration.service;
+package com.ok.springintegration.endpoint;
 
-import com.ok.springintegration.endpoint.TechSupportMessageHandler;
+import com.ok.springintegration.service.DashboardService;
 import com.ok.springintegration.util.AppSupportStatus;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.integration.channel.AbstractSubscribableChannel;
-import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.channel.QueueChannel;
+import org.springframework.messaging.support.GenericMessage;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 @Component
-public class ViewService extends TechSupportMessageHandler {
-
-    static Logger logger = LoggerFactory.getLogger(ViewService.class);
+public class TechSupportDirectChannelHandler extends TechSupportMessageHandler {
+    static Logger logger = LoggerFactory.getLogger(TechSupportDirectChannelHandler.class);
     private Timer timer = new Timer();
-
-
     @Autowired
-    private AbstractSubscribableChannel techSupportChannel;
+    private AbstractSubscribableChannel techSupportDirectChannel;
     @Autowired
     private QueueChannel updateNotificationChannel;
 
     @PostConstruct
     public void init() {
-        techSupportChannel.subscribe(this);
-    }
-
-
-    private void start() {
-        // Represents long-running process thread
+        techSupportDirectChannel.subscribe(this);
         timer.schedule(new TimerTask() {
             public void run() {
                 checkForNotifications();
@@ -45,20 +35,16 @@ public class ViewService extends TechSupportMessageHandler {
 
     private void checkForNotifications() {
         // Check queue for notifications that the software needs to be updated
+        GenericMessage<?> message = (GenericMessage<?>) updateNotificationChannel.receive(1000);
+        if (message != null) {
+            DashboardService.setDashboardStatus("softwareBuild", message.getPayload().toString());
+        }
     }
 
     @Override
     protected void receiveAndAcknowledge(AppSupportStatus status) {
         logger.info("receiveAndAcknowledge status:" + status);
-        DashboardService.setDashboardStatus("softwareBuild", status.getVersion());
+        DashboardService.setDashboardStatus("techSupportDirectChannel", status.getVersion());
 
-    }
-
-    private static class ViewMessageHandler extends TechSupportMessageHandler {
-        Logger logger = LoggerFactory.getLogger(ViewMessageHandler.class);
-        protected void receiveAndAcknowledge(AppSupportStatus status) {
-            logger.info("receiveAndAcknowledge status:" + status);
-            DashboardService.setDashboardStatus("softwareBuild", status.getVersion());
-        }
     }
 }

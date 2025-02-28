@@ -12,6 +12,12 @@
     <groupId>com.ok.integration</groupId>
     <artifactId>samples</artifactId>
     <version>1.0</version>
+    <packaging>pom</packaging>
+    <modules>
+        <module>direct_channel</module>
+        <module>pub_sub_channel</module>
+        <module>queue_channel</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

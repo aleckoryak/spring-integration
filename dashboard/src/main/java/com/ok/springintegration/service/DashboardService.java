@@ -68,6 +68,8 @@ public class DashboardService {
         logger.info("initializeTechSupport: message sent to techSupportDirectChannel");
         techSupportPublishSubscribeChannel.send(message);
         logger.info("initializeTechSupport: message sent to techSupportPublishSubscribeChannel");
+//        techSupportPublishSubscribeChannel.send(MessageBuilder.withPayload("test").build());
+//        logger.info("initializeTechSupport: message sent to techSupportPublishSubscribeChannel");
     }
 
 }

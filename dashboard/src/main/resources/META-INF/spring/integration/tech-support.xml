@@ -8,6 +8,9 @@
 			   http://www.springframework.org/schema/integration
 			   https://www.springframework.org/schema/integration/spring-integration.xsd" >
 
+
+    <int:logging-channel-adapter level="INFO" id="logger"/>
+
     <!-- DirectChannel example (Subscribable) -->
     <int:channel id="techSupportDirectChannel"/>
     <!-- PublishSubscribeChannel -->
@@ -17,6 +20,14 @@
     <int:channel id="updateNotificationQueueChannel">
         <int:queue capacity="5" />
     </int:channel>
+
+    <!-- Filter example -->
+    <int:filter input-channel="techSupportPublishSubscribeChannel"
+                output-channel="updateNotificationQueueChannel"
+                ref="selector" />
+
+    <beans:bean id="selector" class="com.ok.springintegration.endpoint.ServiceMessageFilter" />
+
 
 </beans:beans>
 

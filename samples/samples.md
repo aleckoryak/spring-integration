@@ -43,3 +43,7 @@ Spring Integration provides support for both synchronous and asynchronous messag
 + File Splitter
 + Custom Splitter
 ### Aggregator: Aggregates multiple messages into a single message.
++ Correlation Strategy: Determines how messages are correlated (i.e., grouped together). For example, messages could be correlated based on session IDs, certain headers, or parts of the payload.
++ Release Strategy: Dictates when a group of correlated messages should be released as a single aggregated message. For example, you might release a group once all expected pieces of a message have arrived or after a timeout period.
++ Aggregation Algorithm: Defines how the message payloads are combined once they are ready for release. By default, a collection of the aggregated messages is provided, but this can be customized.
++ Message Group Store: The mechanism by which message groups are stored while awaiting completion. This can be in-memory, or for more robust needs, persistent.

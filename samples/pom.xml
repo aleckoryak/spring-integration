@@ -25,6 +25,7 @@
         <module>recipient_list_router</module>
         <module>payload_type_router</module>
         <module>custom_splitter</module>
+        <module>correlation_strategy_aggregator</module>
     </modules>
 
     <properties>

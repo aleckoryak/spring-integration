@@ -35,6 +35,7 @@ public class CompositeFilterApplication {
                         new ContainsKeywordFilter("Spring"),
                         new MinimumLengthFilter(5)
                 ), CompositeType.AND))
+                .transform(String.class, String::toUpperCase)
                 .handle(customHandler::processMessage);
     }
 

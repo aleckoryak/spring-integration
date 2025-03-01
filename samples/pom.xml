@@ -21,6 +21,7 @@
         <module>priority_channel</module>
         <module>rendezvous_channel</module>
         <module>composite_filter</module>
+        <module>transformers</module>
     </modules>
 
     <properties>

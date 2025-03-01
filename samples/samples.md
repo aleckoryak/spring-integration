@@ -36,4 +36,10 @@ Spring Integration provides support for both synchronous and asynchronous messag
 + Mapping Message Router: This router maps from a message property (header or payload) to channel names based on a mapping strategy
 + Recipient List Router: can send messages to multiple channels based on a list of recipient channels
 ### Splitter: Splits a message into multiple messages.
-Aggregator: Aggregates multiple messages into a single message.
++ Default Splitter: Splits payloads that are inherently iterable, such as lists, arrays, or other iterable types
++ Expression Splitter: Uses a SpEL (Spring Expression Language) expression to define how the message should be split.
++ XPath Splitter
++ JsonPath Splitter
++ File Splitter
++ Custom Splitter
+### Aggregator: Aggregates multiple messages into a single message.

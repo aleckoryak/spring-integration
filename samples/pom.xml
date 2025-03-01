@@ -22,6 +22,7 @@
         <module>rendezvous_channel</module>
         <module>composite_filter</module>
         <module>transformers</module>
+        <module>recipient_list_router</module>
     </modules>
 
     <properties>

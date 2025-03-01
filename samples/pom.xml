@@ -23,6 +23,7 @@
         <module>composite_filter</module>
         <module>transformers</module>
         <module>recipient_list_router</module>
+        <module>payload_type_router</module>
     </modules>
 
     <properties>

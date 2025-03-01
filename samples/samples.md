@@ -28,6 +28,12 @@ Spring Integration provides support for both synchronous and asynchronous messag
 + Message Header Filter
 + Composite Filter
 + Custom Filters
-Router: Routes message to different channels based on a condition.
-Splitter: Splits a message into multiple messages.
+### Router: Routes message to different channels based on a condition.
++ Payload Type Router: Routing messages containing different types of objects to specific handlers
++ Header Value Router: This router uses the value of a specific header to determine the routing destination
++ Expression-Based Router: An Expression Router uses a SpEL (Spring Expression Language) expression to evaluate the routing criteria based on the message context.
++ Method Invoking Router: method of an injected Bean to decide the routing
++ Mapping Message Router: This router maps from a message property (header or payload) to channel names based on a mapping strategy
++ Recipient List Router: can send messages to multiple channels based on a list of recipient channels
+### Splitter: Splits a message into multiple messages.
 Aggregator: Aggregates multiple messages into a single message.

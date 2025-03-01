@@ -14,11 +14,11 @@ import org.springframework.stereotype.Component;
 import java.util.logging.Logger;
 
 @SpringBootApplication
-public class RecipientListRouterExample {
-    Logger logger = Logger.getLogger(RecipientListRouterExample.class.getName());
+public class PayloadTypeRouterExample {
+    Logger logger = Logger.getLogger(PayloadTypeRouterExample.class.getName());
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext context = SpringApplication.run(RecipientListRouterExample.class, args);
+        ConfigurableApplicationContext context = SpringApplication.run(PayloadTypeRouterExample.class, args);
 
         CustomMessage customMessage = new CustomMessage("Hello from the main method!", 200);
         Message<CustomMessage> message = MessageBuilder.withPayload(customMessage)
@@ -26,9 +26,11 @@ public class RecipientListRouterExample {
                 .build();
 
         MessageChannel c = context.getBean("inputChannel", MessageChannel.class);
-        c.send(MessageBuilder.withPayload(message).build());
-
+        c.send(MessageBuilder.withPayload("Hello, this is a string").build());
+        c.send(MessageBuilder.withPayload(100).build());
+        c.send(MessageBuilder.withPayload(22.55).build());
     }
+
 
     @Bean
     public MessageChannel inputChannel() {
@@ -36,66 +38,51 @@ public class RecipientListRouterExample {
     }
 
     @Bean
-    public MessageChannel loggingChannel() {
+    public MessageChannel textProcessingChannel() {
         return new DirectChannel();
     }
 
     @Bean
-    public MessageChannel processingChannel() {
+    public MessageChannel numberProcessingChannel() {
         return new DirectChannel();
     }
 
     @Bean
-    public MessageChannel auditChannel() {
+    public MessageChannel defaultProcessingChannel() {
         return new DirectChannel();
     }
 
 
     @Bean
-    public IntegrationFlow recipientListRouterFlow() {
+    public IntegrationFlow payloadTypeRouterFlow() {
         return flow -> flow
-                .channel("inputChannel")
-                .routeToRecipients(r -> r
-                        .recipient(loggingChannel())
-                        .recipient(processingChannel())
-                        .recipient(auditChannel()));
+                .channel(inputChannel())
+                .<Object, Class<?>>route(Object::getClass, m -> m
+                        .channelMapping(String.class, "textProcessingChannel")
+                        .channelMapping(Integer.class, "numberProcessingChannel")
+                        .defaultOutputChannel("defaultProcessingChannel"));
     }
 
     @Bean
     public IntegrationFlow loggingFlow() {
         return flow -> flow
-                .channel(loggingChannel())
-                .handle(message -> System.out.println("Logging: " + message.getPayload()));
+                .channel(textProcessingChannel())
+                .handle(message -> System.out.println("textProcessingChannel: " + message));
     }
 
     @Bean
     public IntegrationFlow processingFlow() {
         return flow -> flow
-                .channel(processingChannel())
-                .handle(message -> System.out.println("Processing: " + message.getPayload()));
+                .channel(numberProcessingChannel())
+                .handle(message -> System.out.println("numberProcessingChannel: " + message.getPayload()));
     }
 
     @Bean
     public IntegrationFlow auditFlow() {
         return flow -> flow
-                .channel(auditChannel())
-                .handle(message -> System.out.println("Auditing: " + message.getPayload()));
+                .channel(defaultProcessingChannel())
+                .handle(message -> System.out.println("defaultProcessingChannel: " + message.getPayload()));
     }
-
-/*    @MessagingGateway(defaultRequestChannel = "inputChannel")
-    public interface MyGateway {
-        void sendCustomMessage(@Header("priorityString") String priorityString, Message<CustomMessage> message);
-    }
-
-    @MessagingGateway(defaultRequestChannel = "inputChannel1")
-    public interface MyGateway1 {
-        void sendCustomMessage(@Header("priorityString") String priorityString, Message<CustomMessage> message);
-    }
-
-    @MessagingGateway(defaultRequestChannel = "inputChannel2")
-    public interface MyGateway2 {
-        void sendCustomMessage(@Header("priorityString") String priorityString, Message<CustomMessage> message);
-    }*/
 
 }
 
